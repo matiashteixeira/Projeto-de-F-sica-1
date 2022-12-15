@@ -1,9 +1,7 @@
 #include <Arduino.h>
 
 #define Sensor_Som 7 // Pino sensor de som
-#define red 3
-#define green 5 
-#define blue 6
+#define blink 13
 #define tempo_maximo_de_uma_palma 150
 #define tempo_maximo_entre_palmas 500
 
@@ -13,7 +11,8 @@ unsigned long tempo_espera_entre_palmas = 0;
 
 void setup() {
   pinMode(Sensor_Som, INPUT); // Inicia o pino do sensor como entrada
-  pinMode(red, OUTPUT); // Inicia os pino do rele como saída
+  pinMode(blink, OUTPUT); // Inicia os pino do rele como saída
+  Serial.begin(9600);
 }
 
 void palmas(){
@@ -32,8 +31,6 @@ void palmas(){
   
   else if((contPalmas !=0) && (millis()-tempo_espera_entre_palmas > tempo_maximo_entre_palmas)){
       contPalmas = 0;
-      on_off();
-      // tempo_espera_entre_palmas = 0;
   }
 }
 
@@ -41,12 +38,13 @@ void on_off(){
   switch (contPalmas)
   {
   case 1:
-    digitalWrite(red,!digitalRead(red));
+    digitalWrite(blink,LOW);
     break;
   
   case 2:
-    
+    digitalWrite(blink,HIGH);
     break;
+
   }
 }
 
